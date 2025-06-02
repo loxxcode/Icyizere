@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "https://icyizere-v1.vercel.app" }));
 app.use(express.json());
 app.use(morgan('dev'));
 
