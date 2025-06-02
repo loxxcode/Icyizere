@@ -19,6 +19,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
+import { BASE_URL } from '../../config';
 
 // Netflix-inspired styled components
 const NetflixTextField = styled(TextField)(({ theme }) => ({
@@ -54,22 +55,38 @@ const NetflixTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+// const Login = () => {
+//   const [formData, setFormData] = useState({
+//     email: '',
+//     password: ''
+//   });
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState('');
   
-  const { login } = useAuth();
-  const navigate = useNavigate();
+//   const { login } = useAuth();
+//   const navigate = useNavigate();
   
-  const { email, password } = formData;
+//   const { email, password } = formData;
   
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+const login = async (userData) => {
+  try {
+    setError(null);
+    const res = await axios.post(`${BASE_URL}/auth/login`, userData);
+
+    localStorage.setItem('token', res.data.token);
+    setAuthToken(res.data.token);
+    setCurrentUser(res.data.user);
+    setIsAuthenticated(true);
+
+    return res.data;
+  } catch (err) {
+    setError(err.response?.data?.message || 'Login failed');
+    throw err;
+  }
+};
   
   const handleSubmit = async (e) => {
     e.preventDefault();
