@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
         setAuthToken(token);
         
         // Get user data
-        const res = await axios.post('/api/auth/me');
+        const res = await axios.get('/api/auth/me');
         setCurrentUser(res.data.data);
         setIsAuthenticated(true);
       }
