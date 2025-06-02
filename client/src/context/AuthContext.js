@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     try {
       setError(null);
-      const res = await axios.post('/api/auth/login', userData);
+      const res = await axios.get('/api/auth/login', userData);
       
       // Save token to local storage
       localStorage.setItem('token', res.data.token);
